@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateOrganizationDto {
+export class CreateNotificationDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  title: string;
 }
