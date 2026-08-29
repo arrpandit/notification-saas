@@ -1,13 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { EmailService } from 'src/email/email.service';
 import { CreateNotificationDto } from './dto/create-notification.dto';
+import { ServiceBusService } from 'src/service-bus/service-bus.service';
 
 @Injectable()
 export class NotificationsService {
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly emailService: EmailService,
+    @Optional() private readonly serviceBusService?: ServiceBusService,
   ) {}
 
   async create(organizationId: string, dto: CreateNotificationDto) {
@@ -39,39 +41,49 @@ export class NotificationsService {
 
     const notification = result.rows[0];
 
-    try {
-      if (dto.channel === 'EMAIL') {
-        await this.emailService.sendEmail(
-          dto.recipient,
-          dto.subject ?? 'Notification',
-          dto.message,
-        );
-      }
-
-      await this.databaseService.query(
-        `
-        UPDATE notifications
-        SET status = 'SENT'
-        WHERE id = $1
-        `,
-        [notification.id],
-      );
-
-      return {
-        ...notification,
-        status: 'SENT',
-      };
-    } catch (error) {
-      await this.databaseService.query(
-        `
-        UPDATE notifications
-        SET status = 'FAILED'
-        WHERE id = $1
-        `,
-        [notification.id],
-      );
-
-      throw error;
+    if (this.serviceBusService) {
+      await this.serviceBusService.sendNotificationMessage(notification.id);
     }
+
+    return {
+      ...notification,
+      status: 'PENDING',
+    };
+  
+    
+    // try {
+    //   if (dto.channel === 'EMAIL') {
+    //     await this.emailService.sendEmail(
+    //       dto.recipient,
+    //       dto.subject ?? 'Notification',
+    //       dto.message,
+    //     );
+    //   }
+
+    //   await this.databaseService.query(
+    //     `
+    //     UPDATE notifications
+    //     SET status = 'SENT'
+    //     WHERE id = $1
+    //     `,
+    //     [notification.id],
+    //   );
+
+    //   return {
+    //     ...notification,
+    //     status: 'SENT',
+    //   };
+    // } catch (error) {
+    //   await this.databaseService.query(
+    //     `
+    //     UPDATE notifications
+    //     SET status = 'FAILED'
+    //     WHERE id = $1
+    //     `,
+    //     [notification.id],
+    //   );
+
+    //   throw error;
+    // }
   }
 }
