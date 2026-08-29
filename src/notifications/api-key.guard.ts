@@ -20,6 +20,7 @@ export class ApiKeyGuard implements CanActivate {
 
     const organization =
       await this.organizationsService.findOrganizationByApiKey(apiKey);
+
     if (!organization) {
       throw new UnauthorizedException('Invalid API key');
     }
