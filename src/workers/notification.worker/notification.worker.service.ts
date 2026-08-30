@@ -93,18 +93,42 @@ export class NotificationWorkerService
       }
 
       await this.databaseService.query(
-        `UPDATE notifications SET status = 'SENT' WHERE id = $1`,
+        `UPDATE notifications SET status = 'SENT', processed_at = NOW(), last_error = NULL
+        WHERE id = $1`,
         [notificationId],
       );
+
+      await this.receiver.completeMessage(message);
 
       this.logger.log(`Notification ${notificationId} SENT`);
     } catch (error) {
       const errorMessage = (error as Error).message || 'Unknown error';
+
+      this.logger.error(
+        `Failed to process notification ${notificationId}: ${errorMessage}`,
+      );
+
       await this.databaseService.query(
-        `UPDATE notifications SET status = 'FAILED' , last_error = $2 WHERE id =$1`,
+        `UPDATE notifications SET status = 'FAILED' , last_error = $2, processed_at = NOW() WHERE id =$1`,
         [notificationId, errorMessage],
       );
-      this.logger.error('Error occurred while processing notification:', error);
+
+      const MAX_RETRIES = 5;
+      if (message.deliveryCount ?? 0 >= MAX_RETRIES) {
+        await this.receiver.deadLetterMessage(message, {
+          deadLetterReason: 'Max retries exceeded',
+          deadLetterErrorDescription: `Notification ${notificationId} failed after ${MAX_RETRIES} attempts.`,
+        });
+
+        this.logger.log(
+          `Notification ${notificationId} moved to dead-letter queue after ${MAX_RETRIES} attempts.`,
+        );
+
+        return;
+      }
+
+      await this.receiver.abandonMessage(message);
+
       throw error;
     }
   }
