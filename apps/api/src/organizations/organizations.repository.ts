@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { DatabaseService } from '@app/database';
 
@@ -17,6 +17,11 @@ export class OrganizationsRepository {
     );
 
     return res.rows[0];
+  }
+
+  async getAll(): Promise<any[]> {
+    const res = await this.databaseService.query(`SELECT * FROM organizations`);
+    return res.rows;
   }
 
   async findByApiKey(apiKey: string): Promise<any> {

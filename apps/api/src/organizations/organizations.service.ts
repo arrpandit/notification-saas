@@ -13,6 +13,11 @@ export class OrganizationsService {
     return await this.organizationsRepository.create(dto);
   }
 
+  async getAllOrganizations(): Promise<any[]> {
+    // Here you can add any business logic before retrieving the organizations
+    return await this.organizationsRepository.getAll();
+  }
+
   async findOrganizationByApiKey(apiKey: string): Promise<any> {
     return await this.organizationsRepository.findByApiKey(apiKey);
   }
