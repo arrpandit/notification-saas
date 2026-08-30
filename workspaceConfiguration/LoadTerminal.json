@@ -1,1 +1,24 @@
-{"version":"1.2.1","groups":[{"name":"First group: Sample","description":"First group of terminals and commands","enabled":true,"terminals":[{"name":"--1g-1c","path":".","cmd":["echo first group first console!"],"num":0},{"name":"--1g-2c","path":".","cmd":["echo first group second console!"],"num":0}]},{"name":"Second group: Sample","description":"Second group of terminals and commands","enabled":true,"terminals":[{"name":"--2g-1c","path":".","cmd":["echo Second group first console!"],"num":0},{"name":"--2g-2c","path":".","cmd":["echo Second group second console!"],"num":0}]}]}
+{
+  "version": "1.2.1",
+  "groups": [
+    {
+      "name": "First group: Sample",
+      "description": "First group of terminals and commands",
+      "enabled": true,
+      "terminals": [
+        {
+          "name": "api",
+          "path": ".",
+          "cmd": ["npm run start:dev api"],
+          "num": 0
+        },
+        {
+          "name": "worker",
+          "path": ".",
+          "cmd": ["npm run start:dev worker"],
+          "num": 0
+        }
+      ]
+    }
+  ]
+}
