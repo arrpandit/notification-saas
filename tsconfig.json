@@ -1,4 +1,5 @@
 {
+  "ignoreDeprecations": "6.0",
   "compilerOptions": {
     "module": "nodenext",
     "moduleResolution": "nodenext",
@@ -20,6 +21,32 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@app/common": [
+        "libs/common/src"
+      ],
+      "@app/common/*": [
+        "libs/common/src/*"
+      ],
+      "@app/database": [
+        "libs/database/src"
+      ],
+      "@app/database/*": [
+        "libs/database/src/*"
+      ],
+      "@app/email": [
+        "libs/email/src"
+      ],
+      "@app/email/*": [
+        "libs/email/src/*"
+      ],
+      "@app/service-bus": [
+        "libs/service-bus/src"
+      ],
+      "@app/service-bus/*": [
+        "libs/service-bus/src/*"
+      ]
+    }
   }
 }
