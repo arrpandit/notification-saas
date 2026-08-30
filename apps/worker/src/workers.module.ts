@@ -5,6 +5,7 @@ import { WorkerController } from './worker.controller';
 import { EmailService } from '@app/email';
 import { DatabaseService } from '@app/database';
 import { ConfigModule } from '@nestjs/config';
+import { Centralrepository } from '@app/database/central.repository';
 
 @Module({
   providers: [
@@ -12,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
     EmailService,
     DatabaseService,
     WorkerService,
+    Centralrepository,
   ],
   controllers: [WorkerController],
   imports: [
