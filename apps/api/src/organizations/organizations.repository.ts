@@ -4,10 +4,7 @@ import { DatabaseService } from '@app/database';
 
 @Injectable()
 export class OrganizationsRepository {
-  constructor(
-    private readonly databaseService: DatabaseService,
-    private readonly logger: Logger,
-  ) {} // Assuming you have a DatabaseService to handle database operations
+  constructor(private readonly databaseService: DatabaseService) {} // Assuming you have a DatabaseService to handle database operations
 
   async create(dto: CreateOrganizationDto): Promise<any> {
     const apiKey =

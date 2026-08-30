@@ -5,9 +5,10 @@ import { ApiKeyGuard } from './api-key.guard';
 import { EmailModule } from '@app/email';
 import { OrganizationsModule } from '../organizations/organizations.module';
 import { NotificationsRepository } from './notifications.repository';
+import { ServiceBusModule } from '@app/service-bus';
 
 @Module({
-  imports: [OrganizationsModule, EmailModule],
+  imports: [OrganizationsModule, EmailModule, ServiceBusModule],
   controllers: [NotificationsController],
   providers: [NotificationsService, ApiKeyGuard, NotificationsRepository],
 })
