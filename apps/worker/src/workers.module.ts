@@ -3,9 +3,9 @@ import { NotificationWorkerService } from './notification.worker/notification.wo
 import { WorkerService } from './worker.service';
 import { WorkerController } from './worker.controller';
 import { EmailService } from '@app/email';
-import { DatabaseService } from '@app/database';
 import { ConfigModule } from '@nestjs/config';
 import { Centralrepository } from '@app/database/central.repository';
+import { DatabaseService } from '@app/database';
 
 @Module({
   providers: [
