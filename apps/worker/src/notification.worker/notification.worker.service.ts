@@ -1,4 +1,5 @@
 import { DatabaseService } from '@app/database';
+import { Centralrepository } from '@app/database/central.repository';
 import { EmailService } from '@app/email';
 import {
   ServiceBusClient,
@@ -24,6 +25,7 @@ export class NotificationWorkerService
     private readonly configsService: ConfigService,
     private readonly databaseService: DatabaseService,
     private readonly emailService: EmailService,
+    private readonly centralRepository: Centralrepository,
   ) {}
 
   onModuleInit() {
@@ -67,21 +69,18 @@ export class NotificationWorkerService
 
     this.logger.log(`Processing notification ID: ${notificationId}`);
 
-    const res = await this.databaseService.query(
-      `SELECT * FROM notifications WHERE id = $1`,
-      [notificationId],
-    );
+    const notification =
+      await this.centralRepository.getNotificationById(notificationId);
 
-    const notification = res.rows[0];
     if (!notification) {
       this.logger.error(`Notification with ID ${notificationId} not found.`);
       return;
     }
 
     try {
-      await this.databaseService.query(
-        `UPDATE notifications SET status = 'PROCESSING' , attempt_count = attempt_count + 1 WHERE id = $1`,
-        [notificationId],
+      await this.centralRepository.updateNotificationStatus(
+        notificationId,
+        'PROCESSING',
       );
       this.logger.log(`Notification ${notificationId} PROCESSING`);
 
@@ -93,10 +92,9 @@ export class NotificationWorkerService
         );
       }
 
-      await this.databaseService.query(
-        `UPDATE notifications SET status = 'SENT', processed_at = NOW(), last_error = NULL
-        WHERE id = $1`,
-        [notificationId],
+      await this.centralRepository.updateNotificationStatus(
+        notificationId,
+        'SENT',
       );
 
       await this.receiver.completeMessage(message);
@@ -108,6 +106,12 @@ export class NotificationWorkerService
       this.logger.error(
         `Failed to process notification ${notificationId}: ${errorMessage}`,
       );
+
+      // error msg also need to update
+      // await this.centralRepository.updateNotificationStatus(
+      //   notificationId,
+      //   'FAILED',
+      // );
 
       await this.databaseService.query(
         `UPDATE notifications SET status = 'FAILED' , last_error = $2, processed_at = NOW() WHERE id =$1`,
