@@ -10,6 +10,10 @@ export class NotificationsController {
 
   @Post()
   create(@Req() request: any, @Body() dto: CreateNotificationDto) {
-    return this.notificationsService.create(request.organization.id, dto);
+    return this.notificationsService.createNotification(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      request.organization.id,
+      dto,
+    );
   }
 }

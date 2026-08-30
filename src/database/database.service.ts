@@ -1,9 +1,15 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Pool, QueryResultRow } from 'pg';
 
 @Injectable()
 export class DatabaseService implements OnModuleInit, OnModuleDestroy {
+  logger = new Logger(DatabaseService.name);
   private readonly pool: Pool;
   constructor(private readonly configService: ConfigService) {
     this.pool = new Pool({
@@ -17,12 +23,12 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
 
   async onModuleInit() {
     await this.pool.query('SELECT 1');
-    console.log('DB Connected');
+    this.logger.log('Database connection established successfully.');
   }
 
   async onModuleDestroy() {
     await this.pool.end();
-    console.log('DB Disconnected');
+    this.logger.log('Database connection closed successfully.');
   }
 
   async getClient() {

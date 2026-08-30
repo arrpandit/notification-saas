@@ -4,10 +4,11 @@ import { NotificationsService } from './notifications.service';
 import { ApiKeyGuard } from './api-key.guard';
 import { EmailModule } from 'src/email/email.module';
 import { OrganizationsModule } from 'src/organizations/organizations.module';
+import { NotificationsRepository } from './notifications.repository';
 
 @Module({
   imports: [OrganizationsModule, EmailModule],
   controllers: [NotificationsController],
-  providers: [NotificationsService, ApiKeyGuard],
+  providers: [NotificationsService, ApiKeyGuard, NotificationsRepository],
 })
 export class NotificationsModule {}
