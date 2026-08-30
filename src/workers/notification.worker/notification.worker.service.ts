@@ -63,6 +63,9 @@ export class NotificationWorkerService
   private async processMessage(message: ServiceBusReceivedMessage) {
     const { notificationId } = message.body as { notificationId: string };
     // Process the notification message
+
+    this.logger.log(`Processing notification ID: ${notificationId}`);
+
     const res = await this.databaseService.query(
       `SELECT * FROM notifications WHERE id = $1`,
       [notificationId],
@@ -75,6 +78,12 @@ export class NotificationWorkerService
     }
 
     try {
+      await this.databaseService.query(
+        `UPDATE notifications SET status = 'PROCESSING' , attempt_count = attempt_count + 1 WHERE id = $1`,
+        [notificationId],
+      );
+      this.logger.log(`Notification ${notificationId} PROCESSING`);
+
       if (notification.channel === 'Email') {
         await this.emailService.sendEmail(
           notification.recipient,
@@ -90,9 +99,10 @@ export class NotificationWorkerService
 
       this.logger.log(`Notification ${notificationId} SENT`);
     } catch (error) {
+      const errorMessage = (error as Error).message || 'Unknown error';
       await this.databaseService.query(
-        `UPDATE notifications SET status = 'FAILED' WHERE id =$1`,
-        [notificationId],
+        `UPDATE notifications SET status = 'FAILED' , last_error = $2 WHERE id =$1`,
+        [notificationId, errorMessage],
       );
       this.logger.error('Error occurred while processing notification:', error);
       throw error;
