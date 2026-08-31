@@ -17,6 +17,12 @@
           "path": ".",
           "cmd": ["npm run start:dev worker"],
           "num": 0
+        },
+        {
+          "name": "web",
+          "path": "apps/web",
+          "cmd": ["npm start"],
+          "num": 0
         }
       ]
     }
