@@ -4,6 +4,7 @@ import { Notifications } from './notifications/notifications';
 import { Templates } from './templates/templates';
 import { Logs } from './logs/logs';
 import { Settings } from './settings/settings';
+import { CreateNotification } from './create-notification/create-notification';
 
 export const routes: Routes = [
   {
@@ -30,5 +31,9 @@ export const routes: Routes = [
   {
     path: 'settings',
     component: Settings,
+  },
+  {
+    path: 'notifications/create',
+    component: CreateNotification,
   },
 ];

@@ -1,1 +1,79 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+  <div class="page-header">
+    <div>
+      <h2>Dashboard</h2>
+      <p>Overview of your notifications</p>
+    </div>
+
+    <button class="create-button">+ Create Notification</button>
+  </div>
+
+  <!-- Statistics -->
+
+  <div class="stats">
+    <div class="stat-card">
+      <span class="label">Total Sent</span>
+      <strong>1,250</strong>
+    </div>
+
+    <div class="stat-card">
+      <span class="label">Delivered</span>
+      <strong>1,180</strong>
+    </div>
+
+    <div class="stat-card">
+      <span class="label">Failed</span>
+      <strong>50</strong>
+    </div>
+
+    <div class="stat-card">
+      <span class="label">Pending</span>
+      <strong>20</strong>
+    </div>
+  </div>
+
+  <!-- Recent Notifications -->
+
+  <div class="section">
+    <div class="section-header">
+      <h3>Recent Notifications</h3>
+    </div>
+
+    <div class="table">
+      <div class="table-header">
+        <span>Notification</span>
+        <span>Channel</span>
+        <span>Status</span>
+        <span>Time</span>
+      </div>
+
+      <div class="table-row">
+        <span>Welcome Email</span>
+        <span>Email</span>
+        <span class="status delivered">Delivered</span>
+        <span>10:30 AM</span>
+      </div>
+
+      <div class="table-row">
+        <span>OTP</span>
+        <span>SMS</span>
+        <span class="status delivered">Delivered</span>
+        <span>10:25 AM</span>
+      </div>
+
+      <div class="table-row">
+        <span>Order Update</span>
+        <span>Push</span>
+        <span class="status failed">Failed</span>
+        <span>10:20 AM</span>
+      </div>
+
+      <div class="table-row">
+        <span>Password Reset</span>
+        <span>Email</span>
+        <span class="status pending">Pending</span>
+        <span>10:15 AM</span>
+      </div>
+    </div>
+  </div>
+</div>

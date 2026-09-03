@@ -1,0 +1,165 @@
+<div class="create-page">
+
+  <div class="page-header">
+    <div>
+      <h2>Create Notification</h2>
+      <p>Send a notification to a recipient</p>
+    </div>
+  </div>
+
+  <div class="form-card">
+
+    <form
+      [formGroup]="notificationForm"
+      (ngSubmit)="sendNotification()"
+    >
+
+      <!-- Title -->
+      <div class="form-group">
+
+        <label for="title">
+          Notification Title
+        </label>
+
+        <input
+          id="title"
+          type="text"
+          formControlName="title"
+          placeholder="e.g. Welcome Email"
+        />
+
+        @if (
+          notificationForm.get('title')?.touched &&
+          notificationForm.get('title')?.invalid
+        ) {
+          <small class="error">
+            Title is required
+          </small>
+        }
+
+      </div>
+
+
+      <!-- Channel -->
+      <div class="form-group">
+
+        <label for="channel">
+          Channel
+        </label>
+
+        <select
+          id="channel"
+          formControlName="channel"
+        >
+
+          <option value="">
+            Select channel
+          </option>
+
+          <option value="email">
+            Email
+          </option>
+
+          <option value="sms">
+            SMS
+          </option>
+
+          <option value="push">
+            Push
+          </option>
+
+          <option value="in-app">
+            In-App
+          </option>
+
+        </select>
+
+        @if (
+          notificationForm.get('channel')?.touched &&
+          notificationForm.get('channel')?.invalid
+        ) {
+          <small class="error">
+            Please select a channel
+          </small>
+        }
+
+      </div>
+
+
+      <!-- Recipient -->
+      <div class="form-group">
+
+        <label for="recipient">
+          Recipient
+        </label>
+
+        <input
+          id="recipient"
+          type="text"
+          formControlName="recipient"
+          placeholder="user@example.com"
+        />
+
+        @if (
+          notificationForm.get('recipient')?.touched &&
+          notificationForm.get('recipient')?.invalid
+        ) {
+          <small class="error">
+            Recipient is required
+          </small>
+        }
+
+      </div>
+
+
+      <!-- Message -->
+      <div class="form-group">
+
+        <label for="message">
+          Message
+        </label>
+
+        <textarea
+          id="message"
+          rows="6"
+          formControlName="message"
+          placeholder="Write your notification message..."
+        ></textarea>
+
+        @if (
+          notificationForm.get('message')?.touched &&
+          notificationForm.get('message')?.invalid
+        ) {
+          <small class="error">
+            Message is required
+          </small>
+        }
+
+      </div>
+
+
+      <!-- Buttons -->
+      <div class="form-actions">
+
+        <button
+          type="button"
+          class="cancel-button"
+          routerLink="/notifications"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="send-button"
+        >
+          Send Notification
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

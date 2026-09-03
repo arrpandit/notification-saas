@@ -1,12 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiService } from './api.service';
 
-@Controller()
+@Controller('health')
 export class ApiController {
   constructor(private readonly apiService: ApiService) {}
 
   @Get()
-  getHello(): string {
-    return this.apiService.getHello();
+  getHealth(): any {
+    return {
+      status: 200,
+      message: 'Health is OK',
+    };
   }
 }

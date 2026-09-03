@@ -1,1 +1,105 @@
-<p>notifications works!</p>
+<div class="notifications-page">
+  <div class="page-header">
+    <div>
+      <h2>Notifications</h2>
+      <p>View and manage your notifications</p>
+    </div>
+
+    <button class="create-button" routerLink="/notifications/create">+ Create Notification</button>
+  </div>
+
+  <!-- Search -->
+
+  <div class="toolbar">
+    <input type="text" placeholder="Search notifications..." />
+
+    <select>
+      <option>All Channels</option>
+      <option>Email</option>
+      <option>SMS</option>
+      <option>Push</option>
+      <option>In-App</option>
+    </select>
+
+    <select>
+      <option>All Status</option>
+      <option>Delivered</option>
+      <option>Pending</option>
+      <option>Failed</option>
+    </select>
+  </div>
+
+  <!-- Notifications table -->
+
+  <div class="table-container">
+    <div class="table">
+      <div class="table-header">
+        <span>Notification</span>
+        <span>Recipient</span>
+        <span>Channel</span>
+        <span>Status</span>
+        <span>Created</span>
+      </div>
+
+      <div class="table-row">
+        <span>Welcome Email</span>
+
+        <span>user@example.com</span>
+
+        <span>Email</span>
+
+        <span class="status delivered"> Delivered </span>
+
+        <span>Today, 10:30 AM</span>
+      </div>
+
+      <div class="table-row">
+        <span>OTP Verification</span>
+
+        <span>+91 9876543210</span>
+
+        <span>SMS</span>
+
+        <span class="status delivered"> Delivered </span>
+
+        <span>Today, 10:25 AM</span>
+      </div>
+
+      <div class="table-row">
+        <span>Order Update</span>
+
+        <span>user@example.com</span>
+
+        <span>Push</span>
+
+        <span class="status failed"> Failed </span>
+
+        <span>Today, 10:20 AM</span>
+      </div>
+
+      <div class="table-row">
+        <span>Password Reset</span>
+
+        <span>user@example.com</span>
+
+        <span>Email</span>
+
+        <span class="status pending"> Pending </span>
+
+        <span>Today, 10:15 AM</span>
+      </div>
+
+      <div class="table-row">
+        <span>Payment Successful</span>
+
+        <span>customer@example.com</span>
+
+        <span>Email</span>
+
+        <span class="status delivered"> Delivered </span>
+
+        <span>Today, 09:50 AM</span>
+      </div>
+    </div>
+  </div>
+</div>
