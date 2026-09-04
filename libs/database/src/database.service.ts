@@ -12,12 +12,21 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
   logger = new Logger(DatabaseService.name);
   private readonly pool: Pool;
   constructor(private readonly configService: ConfigService) {
+    const connectionString = this.configService.get<string>(
+      'DB_CONNECTION_STRING',
+    );
+
+    if (!connectionString) {
+      throw new Error('DB_CONNECTION_STRING must be defined.');
+    }
+
     this.pool = new Pool({
-      host: this.configService.get<string>('DB_HOST'),
-      port: this.configService.get<number>('DB_PORT'),
-      user: this.configService.get<string>('DB_USER'),
-      password: this.configService.get<string>('DB_PASSWORD'),
-      database: this.configService.get<string>('DB_NAME'),
+      connectionString,
+      // host: this.configService.get<string>('DB_HOST'),
+      // port: this.configService.get<number>('DB_PORT'),
+      // user: this.configService.get<string>('DB_USER'),
+      // password: this.configService.get<string>('DB_PASSWORD'),
+      // database: this.configService.get<string>('DB_NAME'),
     });
   }
 
